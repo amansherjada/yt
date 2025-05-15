@@ -21,6 +21,9 @@ pc = Pinecone(api_key=PINECONE_API_KEY)
 index = pc.Index(PINECONE_INDEX)
 embedder = SentenceTransformer("paraphrase-MiniLM-L6-v2")
 
+@app.route("/")
+def health_check():
+    return "OK", 200
 
 @app.route("/transcribe", methods=["POST"])
 def transcribe_drive():
