@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
 import requests
 import openai
-from pinecone import Pinecone
 import os
 import subprocess
 from sentence_transformers import SentenceTransformer
+from pinecone import Pinecone
 
 app = Flask(__name__)
 
@@ -30,12 +30,10 @@ def transcribe_drive():
         if not drive_url:
             return jsonify({"success": False, "error": "No URL provided"}), 400
 
-        # Extract file ID from the link
         file_id = extract_drive_file_id(drive_url)
         download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
         filename = "video.mp4"
 
-        # Download the file
         print("Downloading video...")
         with requests.get(download_url, stream=True) as r:
             r.raise_for_status()
@@ -43,12 +41,10 @@ def transcribe_drive():
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
 
-        # Convert to WAV using ffmpeg
         wav_file = "audio.wav"
         print("Converting to audio.wav...")
         subprocess.run(["ffmpeg", "-y", "-i", filename, wav_file], check=True)
 
-        # Send to Hugging Face Whisper
         print("Transcribing via Hugging Face Whisper...")
         with open(wav_file, "rb") as f:
             audio_data = f.read()
@@ -66,12 +62,10 @@ def transcribe_drive():
         result = response.json()
         full_text = result.get("text", "")
 
-        # Chunk and embed
         print("Chunking and embedding...")
         chunks = chunk_text(full_text)
         vectors = embedder.encode(chunks).tolist()
 
-        # Upload to Pinecone
         print("Uploading to Pinecone...")
         for i, (chunk, vector) in enumerate(zip(chunks, vectors)):
             index.upsert([
@@ -86,7 +80,6 @@ def transcribe_drive():
                 }
             ])
 
-        # Clean up
         os.remove(filename)
         os.remove(wav_file)
 
@@ -124,5 +117,3 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     print(f"✅ Starting Flask app on port {port}...")
     app.run(host="0.0.0.0", port=port)
-
-
