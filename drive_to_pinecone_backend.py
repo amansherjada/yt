@@ -19,7 +19,8 @@ openai.api_key = "sk-proj-doLnWPS2BDU3L4K0TdGrCXUWKLQq4V-xcO12gqLXBeIjgxPG0VSoMW
 # Initialize Pinecone
 pc = Pinecone(api_key=PINECONE_API_KEY)
 index = pc.Index(PINECONE_INDEX)
-embedder = SentenceTransformer("multi-qa-mpnet-base-dot-v1")
+embedder = SentenceTransformer("paraphrase-MiniLM-L6-v2")
+
 
 @app.route("/transcribe", methods=["POST"])
 def transcribe_drive():
