@@ -21,7 +21,7 @@ pc = Pinecone(api_key=PINECONE_API_KEY)
 index = pc.Index(PINECONE_INDEX)
 embedder = SentenceTransformer("multi-qa-mpnet-base-dot-v1")
 
-@app.route("/transcribe", methods=["POST"])
+@app.route("/transcribe", methods=["POSTS"])
 def transcribe_drive():
     try:
         data = request.get_json()
