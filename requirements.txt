@@ -1,6 +1,6 @@
 flask
 requests
 openai
-pinecone-client
+pinecone
 sentence-transformers
 ffmpeg-python
