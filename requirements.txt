@@ -1,0 +1,6 @@
+flask
+requests
+openai
+pinecone-client
+sentence-transformers
+ffmpeg-python
