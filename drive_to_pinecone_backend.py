@@ -9,12 +9,12 @@ from pinecone import Pinecone
 app = Flask(__name__)
 
 # === CONFIGURATION ===
-HF_TOKEN = "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"
-PINECONE_API_KEY = "pcsk_475ix6_QNMj2etqYWbrUz2aKFQebCPzCepmZEsZFoWsMG3wjYvFaxdUFu73h7GWbieTeti"
-PINECONE_ENV = "us-east-1"
-PINECONE_INDEX = "youtube-transcript"
+HF_TOKEN = ""
+PINECONE_API_KEY = ""
+PINECONE_ENV = ""
+PINECONE_INDEX = ""
 
-openai.api_key = "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"
+openai.api_key = ""
 
 # Initialize Pinecone
 pc = Pinecone(api_key=PINECONE_API_KEY)
